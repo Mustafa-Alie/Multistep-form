@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef, useReducer } from "react";
 
 import StepsContainer from "./components/StepsContainer";
 import NextStepBtn from "./components/NextStepBtn";
@@ -8,16 +8,62 @@ import Addons from "./components/Addons";
 import Summary from "./components/Summary";
 import Thanks from "./components/Thanks";
 
-function App() {
-  const [step, setStep] = useState(1); //info, plan, add-on, summary, thanks
+//write the reduced function outside the app to increase performace, so that it doesnt get recreated everytime the app renders:
+const initialState = {
+  step: 1,
+  validated: false,
+  cycle: "monthly",
+  plan: "arcade",
+  addon: {
+    "Online Service": false,
+    "Larger Storage": false,
+    "Customizable Profile": false,
+  },
+};
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "NEXT_STEP":
+      return { ...state, step: state.step + 1 };
+
+    case "PREVIOUS_STEP":
+      return { ...state, step: state.step - 1 };
+
+    case "PREVIOUS_STEP_2":
+      return { ...state, step: state.step - 2 };
+
+    case "SET_VALIDATED":
+      return { ...state, validated: action.payload };
+
+    case "SET_CYCLE":
+      return {
+        ...state,
+        cycle: state.cycle === "monthly" ? "yearly" : "monthly",
+      };
+
+    case "SET_PLAN":
+      return { ...state, plan: action.payload };
+
+    case "SET_ADDON":
+      return {
+        ...state,
+        addon: {
+          ...state.addon,
+          [action.addonType]: !state.addon[action.addonType],
+        },
+      };
+
+    default:
+      return state;
+  }
+}
+
+function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
   const formRef = useRef(null);
 
-  //handle Info comp. validation & submission:
-  const [validated, setValidated] = useState(false); //state for the error messages.
-
   function handleNextStep() {
-    setStep((prevStep) => prevStep + 1);
+    dispatch({ type: "NEXT_STEP" });
   }
 
   function handleValidateForm(event) {
@@ -27,68 +73,41 @@ function App() {
     const form = formRef.current;
 
     if (form?.checkValidity() === false) {
-      setValidated(true);
+      dispatch({ type: "SET_VALIDATED", payload: true });
     } else {
+      dispatch({ type: "SET_VALIDATED", payload: false });
       handleNextStep();
     }
   }
 
-  //////////////////////////////////////////////
-
-  const [cycle, setCycle] = useState("monthly"); //monthly, yearly
-
-  const [plan, setPlan] = useState("arcade"); // arcade, advanced, pro
-
-  /////////////////////////////////////////////
-  const [addon, setAddon] = useState({
-    "Online Service": false,
-    "Larger Storage": false,
-    "Customizable Profile": false,
-  });
-
   return (
-    <main className="bg-main d-flex flex-column justify-content-center align-items-center overflow-hidden" style={{ height: "100dvh" }}>
+    <main
+      className="bg-main d-flex flex-column justify-content-center align-items-center overflow-hidden"
+      style={{ height: "100dvh" }}
+    >
       <section className="white-container row bg-white rounded-5 d-flex ">
-        <StepsContainer step={step} />
+        <StepsContainer state={state} />
 
-        {step === 1 && (
+        {state.step === 1 && (
           <Info
             onValidateForm={handleValidateForm}
-            validated={validated}
+            state={state}
             formRef={formRef}
           />
         )}
-        {step === 2 && (
-          <Plan
-            setCycle={setCycle}
-            cycle={cycle}
-            setStep={setStep}
-            setPlan={setPlan}
-            plan={plan}
-          />
-        )}
+        {state.step === 2 && <Plan state={state} dispatch={dispatch} />}
 
-        {step === 3 && (
-          <Addons
-            addon={addon}
-            setAddon={setAddon}
-            setStep={setStep}
-            cycle={cycle}
-          />
-        )}
+        {state.step === 3 && <Addons state={state} dispatch={dispatch} />}
 
-        {step === 4 && (
-          <Summary cycle={cycle} plan={plan} addon={addon} setStep={setStep} />
-        )}
+        {state.step === 4 && <Summary state={state} dispatch={dispatch} />}
 
-        {step === 5 && <Thanks />}
+        {state.step === 5 && <Thanks />}
       </section>
 
       <NextStepBtn
+        dispatch={dispatch}
         onValidateForm={handleValidateForm}
-        validated={validated}
-        step={step}
-        setStep={setStep}
+        state={state}
       />
     </main>
   );
