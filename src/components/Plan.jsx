@@ -21,7 +21,7 @@ function Plan({ setCycle, cycle, setStep, setPlan, plan }) {
             >
               <img
                 className="img-fluid align-self-start"
-                src="/images/icon-arcade.svg"
+                src={`${import.meta.env.BASE_URL}images/icon-arcade.svg`}
               ></img>
 
               <div>
