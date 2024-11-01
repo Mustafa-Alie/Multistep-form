@@ -60,7 +60,7 @@ function Summary({ cycle, plan, addon, setStep }) {
             <span> (per {cycle})</span>
           </p>
 
-          <p className="price-color fs-5 fw-semibold">+${total}/mo</p>
+          <p className="price-color fs-5 fw-semibold">+${total}/{cycle}</p>
         </div>
       </div>
 
