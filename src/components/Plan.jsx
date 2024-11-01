@@ -46,7 +46,7 @@ function Plan({ setCycle, cycle, setStep, setPlan, plan }) {
             >
               <img
                 className="img-fluid align-self-start"
-                src="/images/icon-advanced.svg"
+                src={`${import.meta.env.BASE_URL}images/icon-advanced.svg`}
               ></img>
 
               <div>
@@ -71,7 +71,7 @@ function Plan({ setCycle, cycle, setStep, setPlan, plan }) {
             >
               <img
                 className="img-fluid align-self-start"
-                src="/images/icon-pro.svg"
+                src={`${import.meta.env.BASE_URL}images/icon-pro.svg`}
               ></img>
 
               <div>
