@@ -1,6 +1,6 @@
 import { Form, Button } from "react-bootstrap";
 
-function Addons({ addon, setAddon, setStep, cycle }) {
+function Addons({ state, dispatch }) {
   return (
     <div className="form-container mx-auto col-lg-7 d-flex flex-column justify-content-around pe-lg-5 p-3 pt-4">
       <div>
@@ -13,20 +13,18 @@ function Addons({ addon, setAddon, setStep, cycle }) {
       <div className="d-flex flex-column gap-3">
         <div
           onClick={() => {
-            setAddon((prevValue) => {
-              return {
-                ...prevValue,
-                ["Online Service"]: !prevValue["Online Service"],
-              };
+            dispatch({
+              type: "SET_ADDON",
+              addonType: "Online Service",
             });
           }}
           className={`${
-            addon["Online Service"] ? "active-checkbox" : ""
+            state.addon["Online Service"] ? "active-checkbox" : ""
           } checkbox-container border border-2 border-subtle-light rounded-4 p-3 d-flex justify-content-between align-items-center`}
         >
           <div className="d-flex align-items-center gap-1">
             <Form.Check
-              checked={addon["Online Service"]}
+              checked={state.addon["Online Service"]}
               inline
               type={"checkbox"}
               className="outline-none big-checkbox"
@@ -41,26 +39,24 @@ function Addons({ addon, setAddon, setStep, cycle }) {
             </div>
           </div>
           <p className="price-color ">
-            {cycle === "monthly" ? "+$1/mo" : "+$10/yr"}
+            {state.cycle === "monthly" ? "+$1/mo" : "+$10/yr"}
           </p>
         </div>
 
         <div
-          onClick={() => {
-            setAddon((prevValue) => {
-              return {
-                ...prevValue,
-                ["Larger Storage"]: !prevValue["Larger Storage"],
-              };
-            });
-          }}
+          onClick={() =>
+            dispatch({
+              type: "SET_ADDON",
+              addonType: "Larger Storage",
+            })
+          }
           className={`${
-            addon["Larger Storage"] ? "active-checkbox" : ""
+            state.addon["Larger Storage"] ? "active-checkbox" : ""
           } checkbox-container border border-2 border-subtle-light rounded-4 p-3 d-flex justify-content-between align-items-center`}
         >
           <div className="d-flex align-items-center gap-1">
             <Form.Check
-              checked={addon["Larger Storage"]}
+              checked={state.addon["Larger Storage"]}
               inline
               type={"checkbox"}
               className="outline-none big-checkbox"
@@ -75,26 +71,24 @@ function Addons({ addon, setAddon, setStep, cycle }) {
             </div>
           </div>
           <p className="price-color ">
-            {cycle === "monthly" ? "+$2/mo" : "+$20/yr"}
+            {state.cycle === "monthly" ? "+$2/mo" : "+$20/yr"}
           </p>
         </div>
 
         <div
-          onClick={() => {
-            setAddon((prevValue) => {
-              return {
-                ...prevValue,
-                ["Customizable Profile"]: !prevValue["Customizable Profile"],
-              };
-            });
-          }}
+          onClick={() =>
+            dispatch({
+              type: "SET_ADDON",
+              addonType: "Customizable Profile",
+            })
+          }
           className={`${
-            addon["Customizable Profile"] ? "active-checkbox" : ""
+            state.addon["Customizable Profile"] ? "active-checkbox" : ""
           } checkbox-container border border-2 border-subtle-light rounded-4 p-3 d-flex justify-content-between align-items-center`}
         >
           <div className="d-flex align-items-center gap-1">
             <Form.Check
-              checked={addon["Customizable Profile"]}
+              checked={state.addon["Customizable Profile"]}
               inline
               type={"checkbox"}
               className="outline-none big-checkbox"
@@ -109,7 +103,7 @@ function Addons({ addon, setAddon, setStep, cycle }) {
             </div>
           </div>
           <p className="price-color ">
-            {cycle === "monthly" ? "+$2/mo" : "+$20/yr"}
+            {state.cycle === "monthly" ? "+$2/mo" : "+$20/yr"}
           </p>
         </div>
       </div>
@@ -119,7 +113,7 @@ function Addons({ addon, setAddon, setStep, cycle }) {
           variant="link"
           type="Button"
           className="back-link text-tertiary"
-          onClick={() => setStep((prevStep) => prevStep - 1)}
+          onClick={() => dispatch({ type: "PREVIOUS_STEP" })}
         >
           Go Back
         </Button>
@@ -129,9 +123,7 @@ function Addons({ addon, setAddon, setStep, cycle }) {
           size="lg"
           type="submit"
           className="text-white "
-          onClick={() => {
-            setStep((prevStep) => prevStep + 1);
-          }}
+          onClick={() => dispatch({ type: "NEXT_STEP" })}
         >
           Next Step
         </Button>
