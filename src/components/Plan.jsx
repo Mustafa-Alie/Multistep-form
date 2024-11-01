@@ -25,7 +25,7 @@ function Plan({ state, dispatch }) {
             >
               <img
                 className="img-fluid align-self-start"
-                src="/images/icon-arcade.svg"
+                src={`${import.meta.env.BASE_URL}images/icon-arcade.svg`}
               ></img>
 
               <div>
@@ -52,7 +52,7 @@ function Plan({ state, dispatch }) {
             >
               <img
                 className="img-fluid align-self-start"
-                src="/images/icon-advanced.svg"
+                src={`${import.meta.env.BASE_URL}images/icon-advanced.svg`}
               ></img>
 
               <div>
@@ -77,7 +77,7 @@ function Plan({ state, dispatch }) {
             >
               <img
                 className="img-fluid align-self-start"
-                src="/images/icon-pro.svg"
+                src={`${import.meta.env.BASE_URL}images/icon-pro.svg`}
               ></img>
 
               <div>
