@@ -3,7 +3,7 @@ function Thanks() {
     <div className="form-container mx-auto col-lg-7 d-flex flex-column justify-content-around pe-lg-5 p-3 pt-4">
       <div className="text-center">
         <img
-          src="/images/icon-thank-you.svg"
+          src={`${import.meta.env.BASE_URL}images/icon-thank-you.svg`}
           alt="thank you icone"
           className="img-fluid mb-3"
         ></img>
