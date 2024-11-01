@@ -1,6 +1,6 @@
 import Steps from "./Steps";
 
-function StepsContainer({ step }) {
+function StepsContainer({ state }) {
   return (
     <div className=" col-lg-5 p-0 p-lg-3 my-lg-3 position-relative">
       <picture>
@@ -19,7 +19,7 @@ function StepsContainer({ step }) {
         ></img>
       </picture>
 
-      <Steps step={step} />
+      <Steps state={state} />
     </div>
   );
 }
