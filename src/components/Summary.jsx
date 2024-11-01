@@ -1,15 +1,15 @@
 import { Button } from "react-bootstrap";
 import data from "../data/data";
 
-function Summary({ cycle, plan, addon, setStep }) {
+function Summary({ state, dispatch }) {
   const addedAddons = [];
-  for (let el in addon) {
-    if (addon[el] === true) addedAddons.push(el);
+  for (let el in state.addon) {
+    if (state.addon[el] === true) addedAddons.push(el);
   }
   const totalAddons = addedAddons.reduce((acc, cur) => {
-    return acc + data.addons[cur][cycle];
+    return acc + data.addons[cur][state.cycle];
   }, 0);
-  const total = data.plans[plan][cycle] + totalAddons;
+  const total = data.plans[state.plan][state.cycle] + totalAddons;
 
   return (
     <div className="form-container mx-auto col-lg-7 d-flex flex-column justify-content-around pe-lg-5 p-3 pt-4">
@@ -25,20 +25,20 @@ function Summary({ cycle, plan, addon, setStep }) {
           <div className="d-flex justify-content-between">
             <div>
               <p className="text-primary mb-0">
-                {plan}
-                <span> ({cycle})</span>
+                {state.plan}
+                <span> ({state.cycle})</span>
               </p>
               <Button
                 variant="link"
                 type="Button"
                 className="back-link text-tertiary  p-0"
-                onClick={() => setStep((prevStep) => prevStep - 2)}
+                onClick={() => dispatch({ type: "PREVIOUS_STEP_2" })}
               >
                 change
               </Button>
             </div>
 
-            <p>{`$${data.plans[plan][cycle]}/${cycle} `}</p>
+            <p>{`$${data.plans[state.plan][state.cycle]}/${state.cycle} `}</p>
           </div>
 
           <hr className="border-dark-subtle my-4"></hr>
@@ -48,7 +48,8 @@ function Summary({ cycle, plan, addon, setStep }) {
               <div key={el} className="d-flex justify-content-between">
                 <p className="text-tertiary mb-0 fs-6">{el}</p>
                 <p className="mb-0 fs-6 text-primary">
-                  +${data.addons[el][cycle]}/{cycle === "monthly" ? "mo" : "yr"}
+                  +${data.addons[el][state.cycle]}/
+                  {state.cycle === "monthly" ? "mo" : "yr"}
                 </p>
               </div>
             ))}
@@ -57,10 +58,12 @@ function Summary({ cycle, plan, addon, setStep }) {
         <div className="d-flex justify-content-between mt-3 p-3">
           <p className="text-tertiary mb-0 fs-6">
             Total
-            <span> (per {cycle})</span>
+            <span> (per {state.cycle})</span>
           </p>
 
-          <p className="price-color fs-5 fw-semibold">+${total}/{cycle}</p>
+          <p className="price-color fs-5 fw-semibold">
+            +${total}/{state.cycle}
+          </p>
         </div>
       </div>
 
@@ -69,7 +72,7 @@ function Summary({ cycle, plan, addon, setStep }) {
           variant="link"
           type="Button"
           className="back-link text-tertiary"
-          onClick={() => setStep((prevStep) => prevStep - 1)}
+          onClick={() => dispatch({ type: "PREVIOUS_STEP" })}
         >
           Go Back
         </Button>
@@ -79,7 +82,7 @@ function Summary({ cycle, plan, addon, setStep }) {
           size="lg"
           type="button"
           className="text-white "
-          onClick={() => setStep((prevStep) => prevStep + 1)}
+          onClick={() => dispatch({ type: "NEXT_STEP" })}
         >
           Confirm
         </Button>
