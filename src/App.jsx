@@ -47,7 +47,7 @@ function App() {
   });
 
   return (
-    <main className="bg-main vh-100 d-flex flex-column justify-content-center align-items-center overflow-hidden" style={{ maxHeight: "100vh" }}>
+    <main className="bg-main d-flex flex-column justify-content-center align-items-center overflow-hidden" style={{ height: "100dvh" }}>
       <section className="white-container row bg-white rounded-5 d-flex ">
         <StepsContainer step={step} />
 
