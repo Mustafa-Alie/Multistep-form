@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 
 function Info({
   onValidateForm: handleValidateForm,
-  validated = { validated },
+  state = { state },
   formRef,
 }) {
   return (
@@ -18,7 +17,7 @@ function Info({
       <Form
         ref={formRef}
         noValidate
-        validated={validated}
+        validated={state.validated}
         onSubmit={handleValidateForm}
         className="d-flex flex-column gap-3"
       >
