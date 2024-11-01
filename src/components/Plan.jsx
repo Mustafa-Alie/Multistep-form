@@ -12,7 +12,9 @@ function Plan({ setCycle, cycle, setStep, setPlan, plan }) {
 
       <div className="container">
         <div className="row">
-          <div className="d-flex flex-column flex-lg-row justify-content-between gap-3">
+          <div className={`${
+              cycle === "monthly" ? "gap-3" : "gap-1"
+            } d-flex flex-column flex-lg-row justify-content-between`}>
             <div
               onClick={() => setPlan("arcade")}
               className={`${
@@ -89,7 +91,7 @@ function Plan({ setCycle, cycle, setStep, setPlan, plan }) {
             </div>
           </div>
         </div>
-        <div className="row mt-5">
+        <div className="row mt-1 mt-lg-5">
           <div className="col bg-body-tertiary d-flex justify-content-center align-items-center gap-3 p-3">
             <span className="text-tertiary fw-semibold">Monthly</span>
 
